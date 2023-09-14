@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  margin-top: 10vh;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  font-size: larger;
+  font-weight: bolder;
+  margin-bottom: 1rem;
+}
+
+h4 {
+  font-weight: 300;
+}
+
+section {
+  width: 60vw;
+  border: 2px solid #ccc;
+  padding: 1rem;
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.2rem;
+  border-bottom: 2px #888 solid;
+}
+
+input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 1.5rem;
+}
+
+.inputLeft {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  gap: 0.5rem;
+}
+
+.PlusCircle {
+  font-size: 2rem;
+  color: #888;
+}
+
+.inputRight {
+  display: flex;
+  align-items: center;
+  color: #888;
+  gap: 0.5rem;
+}
