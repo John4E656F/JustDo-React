@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { BsCircle, BsCheckCircleFill, BsCircleFill, BsFillPencilFill } from 'react-icons/bs';
+import { Task } from '../../types';
 
-export const Todo = () => {
+export const Todo = ({ updateTaskStatus, id, text, done, severity }: Task) => {
   const [isTaskHovered, setIsTaskHovered] = useState(false);
   const [isCheckHovered, setIsCheckHovered] = useState(false);
 
@@ -21,23 +22,46 @@ export const Todo = () => {
     setIsCheckHovered(false);
   };
 
+  const handleTaskClick = () => {
+    // Update the task's done status here
+    const newStatus = !done;
+    updateTaskStatus(id, newStatus);
+    window.location.reload();
+  };
+
   return (
     <div className='container'>
       <div className='left'>
-        <button onMouseEnter={handleMouseEnterCheck} onMouseLeave={handleMouseLeaveCheck}>
-          {isCheckHovered ? <BsCheckCircleFill className='PlusCircle' /> : <BsCircle className='PlusCircle' />}
-        </button>
+        {done ? (
+          <BsCheckCircleFill className='PlusCircle done' />
+        ) : (
+          <button onMouseEnter={handleMouseEnterCheck} onMouseLeave={handleMouseLeaveCheck} onClick={handleTaskClick}>
+            {isCheckHovered ? <BsCheckCircleFill className='PlusCircle' /> : <BsCircle className='PlusCircle' />}
+          </button>
+        )}
       </div>
-      <div className='right' onMouseEnter={handleMouseEnterTask} onMouseLeave={handleMouseLeaveTask}>
-        <div className='taskContainer'>
-          <div className='task'>
-            <h2> Task herefqzfqz fqzf qzf</h2>
-            <BsCircleFill className='severity red' />
+      {done ? (
+        <div className='rightDone'>
+          <div className='taskContainer'>
+            <div className='taskDone'>
+              <h2>{text}</h2>
+              <BsCircleFill className='severity red' />
+            </div>
+            <p>{severity}</p>
           </div>
-          <p>Severity</p>
         </div>
-        {isTaskHovered && <BsFillPencilFill className='pen' />}
-      </div>
+      ) : (
+        <div className='right' onMouseEnter={handleMouseEnterTask} onMouseLeave={handleMouseLeaveTask}>
+          <div className='taskContainer'>
+            <div className='task'>
+              <h2>{text}</h2>
+              <BsCircleFill className='severity red' />
+            </div>
+            <p>{severity}</p>
+          </div>
+          {isTaskHovered && <BsFillPencilFill className='hover' />}
+        </div>
+      )}
     </div>
   );
 };

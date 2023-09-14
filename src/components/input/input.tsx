@@ -19,7 +19,7 @@ export const Input = () => {
   const handleAddTask = () => {
     const newTask = {
       id: uuidv4(),
-      task: taskText,
+      text: taskText,
       severity: severity,
       done: false,
     };
@@ -39,6 +39,7 @@ export const Input = () => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
+    window.location.reload();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  user-select: none;
 }
 
 body {
@@ -28,7 +29,7 @@ h4 {
 
 section {
   width: 60vw;
-  border: 2px solid #ccc;
+  /* border: 2px solid #ccc; */
   padding: 1rem;
 }
 
@@ -66,6 +67,10 @@ input {
   color: #888;
 }
 
+.done {
+  color: green;
+}
+
 .inputRight {
   display: flex;
   align-items: center;
@@ -76,6 +81,7 @@ input {
 .container {
   display: flex;
   align-items: center;
+  user-select: none;
 }
 
 .left {
@@ -93,6 +99,15 @@ input {
   padding: 0.5rem;
   border-radius: 0.2em;
 }
+.rightDone {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  align-items: center;
+  gap: 10px;
+  padding: 0.5rem;
+  border-radius: 0.2em;
+}
 
 .right:hover {
   background-color: lightgray;
@@ -103,6 +118,12 @@ input {
   justify-content: center;
 }
 
+.taskDone {
+  display: flex;
+  justify-content: center;
+  text-decoration: line-through;
+}
+
 .severity {
   padding-left: 0.5rem;
 }
@@ -111,10 +132,36 @@ input {
   color: red;
 }
 
-.pen {
+.hover {
   cursor: pointer;
 }
 
 .pen:hover {
   font-size: 1.5rem;
+}
+
+.spacer {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #888;
+}
+
+.horizontalBar {
+  width: 75%;
+  height: 0px;
+  border: 1px solid #888;
+  margin-right: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: 10px;
+}
+
+.clear {
+  display: flex;
+}
+
+.clear:hover {
+  color: #666666;
+  cursor: pointer;
 }
