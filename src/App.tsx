@@ -1,4 +1,4 @@
-import { Input } from './components';
+import { Input, Todo } from './components';
 import { HiCheck } from 'react-icons/hi';
 
 import './App.css';
@@ -15,6 +15,7 @@ function App() {
       </header>
       <section>
         <Input />
+        <Todo />
       </section>
     </>
   );

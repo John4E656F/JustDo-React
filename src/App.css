@@ -38,6 +38,13 @@ section {
   align-items: center;
   padding-bottom: 0.2rem;
   border-bottom: 2px #888 solid;
+  margin-bottom: 2rem;
+}
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
 
 input {
@@ -64,4 +71,50 @@ input {
   align-items: center;
   color: #888;
   gap: 0.5rem;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.right {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.3s;
+  padding: 0.5rem;
+  border-radius: 0.2em;
+}
+
+.right:hover {
+  background-color: lightgray;
+}
+
+.task {
+  display: flex;
+  justify-content: center;
+}
+
+.severity {
+  padding-left: 0.5rem;
+}
+
+.red {
+  color: red;
+}
+
+.pen {
+  cursor: pointer;
+}
+
+.pen:hover {
+  font-size: 1.5rem;
 }

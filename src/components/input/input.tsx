@@ -1,15 +1,12 @@
 import { useState, useRef } from 'react';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { AiOutlineDownSquare } from 'react-icons/ai';
-import { useDispatch } from 'react-redux'; // Import useDispatch
-import { addTask } from '../../store/taskSlice';
 import { v4 as uuidv4 } from 'uuid';
 
 export const Input = () => {
   const [taskText, setTaskText] = useState('');
   const [severity, setSeverity] = useState('normal');
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const dispatch = useDispatch(); // Get the dispatch function from Redux
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskText(e.target.value);
@@ -27,9 +24,16 @@ export const Input = () => {
       done: false,
     };
 
-    // Dispatch the addTask action with the newTask object
-    dispatch(addTask(newTask));
+    // Retrieve existing tasks from localStorage
+    const existingTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 
+    // Add the new task
+    existingTasks.push(newTask);
+
+    // Update tasks in localStorage
+    localStorage.setItem('tasks', JSON.stringify(existingTasks));
+
+    // Clear input fields and update your component state as needed
     setTaskText('');
     setSeverity('normal');
     if (inputRef.current) {
@@ -44,18 +48,16 @@ export const Input = () => {
   };
 
   return (
-    <div>
-      <div className='inputContainer'>
-        <div className='inputLeft'>
-          <button type='submit' onClick={handleAddTask}>
-            <HiOutlinePlusCircle className='PlusCircle' />
-          </button>
-          <input type='text' placeholder='Add a task' value={taskText} onChange={handleInputChange} onKeyDown={handleKeyDown} ref={inputRef} />
-        </div>
-        <div className='inputRight'>
-          <p>Set severity</p>
-          <AiOutlineDownSquare />
-        </div>
+    <div className='inputContainer'>
+      <div className='inputLeft'>
+        <button type='submit' onClick={handleAddTask}>
+          <HiOutlinePlusCircle className='PlusCircle' />
+        </button>
+        <input type='text' placeholder='Add a task' value={taskText} onChange={handleInputChange} onKeyDown={handleKeyDown} ref={inputRef} />
+      </div>
+      <div className='inputRight'>
+        <p>Set severity</p>
+        <AiOutlineDownSquare />
       </div>
     </div>
   );
