@@ -101,5 +101,6 @@ Contributions to the Just Do project are welcome. If you have any ideas for impr
 
 Your contributions will be reviewed, and once approved, they will be merged into the main project.
 
-License
+## License
+
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
