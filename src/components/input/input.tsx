@@ -1,40 +1,44 @@
 import { useState, useRef } from 'react';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { AiOutlineDownSquare } from 'react-icons/ai';
-import { useDispatch } from 'react-redux'; // Import useDispatch
-import { addTask } from '../../store/taskSlice';
 import { v4 as uuidv4 } from 'uuid';
+import { Severity } from '../';
 
 export const Input = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskText, setTaskText] = useState('');
-  const [severity, setSeverity] = useState('normal');
+  const [severity, setSeverity] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const dispatch = useDispatch(); // Get the dispatch function from Redux
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskText(e.target.value);
   };
 
-  const handleSeverityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSeverity(e.target.value);
-  };
-
   const handleAddTask = () => {
     const newTask = {
       id: uuidv4(),
-      task: taskText,
+      text: taskText,
       severity: severity,
       done: false,
     };
 
-    // Dispatch the addTask action with the newTask object
-    dispatch(addTask(newTask));
+    // Retrieve existing tasks from localStorage
+    const existingTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 
+    // Add the new task
+    existingTasks.push(newTask);
+
+    // Update tasks in localStorage
+    localStorage.setItem('tasks', JSON.stringify(existingTasks));
+
+    // Clear input fields and update your component state as needed
     setTaskText('');
-    setSeverity('normal');
+    setSeverity('');
     if (inputRef.current) {
       inputRef.current.focus();
     }
+    window.location.reload();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -43,19 +47,32 @@ export const Input = () => {
     }
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSeverityChange = (severity: string) => {
+    setSeverity(severity);
+    closeModal();
+  };
   return (
-    <div>
-      <div className='inputContainer'>
-        <div className='inputLeft'>
-          <button type='submit' onClick={handleAddTask}>
-            <HiOutlinePlusCircle className='PlusCircle' />
-          </button>
-          <input type='text' placeholder='Add a task' value={taskText} onChange={handleInputChange} onKeyDown={handleKeyDown} ref={inputRef} />
-        </div>
-        <div className='inputRight'>
-          <p>Set severity</p>
+    <div className='inputContainer'>
+      <div className='inputLeft'>
+        <button type='submit' onClick={handleAddTask}>
+          <HiOutlinePlusCircle className='PlusCircle' />
+        </button>
+        <input type='text' placeholder='Add a task' value={taskText} onChange={handleInputChange} onKeyDown={handleKeyDown} ref={inputRef} />
+      </div>
+      <div className='inputRight'>
+        <p>{severity ? severity : 'Set severity'}</p>
+        <button onClick={openModal} ref={triggerRef}>
           <AiOutlineDownSquare />
-        </div>
+        </button>
+        <Severity isModalOpen={isModalOpen} triggerRef={triggerRef} handleSeverityChange={handleSeverityChange} />
       </div>
     </div>
   );
