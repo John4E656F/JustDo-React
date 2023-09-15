@@ -2,18 +2,22 @@ import { useState, useRef } from 'react';
 import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { AiOutlineDownSquare } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
+import { Severity } from '../';
+import { Modal } from '../../types';
 
-export const Input = () => {
+export const Input = ({ isModalOpen, openModal, closeModal }: Modal) => {
   const [taskText, setTaskText] = useState('');
-  const [severity, setSeverity] = useState('normal');
+  const [severity, setSeverity] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskText(e.target.value);
   };
 
-  const handleSeverityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSeverity(e.target.value);
+  const handleSeverityChange = (severity: string) => {
+    setSeverity(severity);
+    closeModal();
   };
 
   const handleAddTask = () => {
@@ -35,7 +39,7 @@ export const Input = () => {
 
     // Clear input fields and update your component state as needed
     setTaskText('');
-    setSeverity('normal');
+    setSeverity('');
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -57,8 +61,11 @@ export const Input = () => {
         <input type='text' placeholder='Add a task' value={taskText} onChange={handleInputChange} onKeyDown={handleKeyDown} ref={inputRef} />
       </div>
       <div className='inputRight'>
-        <p>Set severity</p>
-        <AiOutlineDownSquare />
+        <p>{severity ? severity : 'Set severity'}</p>
+        <button onClick={openModal} ref={triggerRef}>
+          <AiOutlineDownSquare />
+        </button>
+        <Severity isModalOpen={isModalOpen} triggerRef={triggerRef} handleSeverityChange={handleSeverityChange} />
       </div>
     </div>
   );
