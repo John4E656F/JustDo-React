@@ -3,9 +3,9 @@ import { HiOutlinePlusCircle } from 'react-icons/hi';
 import { AiOutlineDownSquare } from 'react-icons/ai';
 import { v4 as uuidv4 } from 'uuid';
 import { Severity } from '../';
-import { Modal } from '../../types';
 
-export const Input = ({ isModalOpen, openModal, closeModal }: Modal) => {
+export const Input = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [taskText, setTaskText] = useState('');
   const [severity, setSeverity] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -13,11 +13,6 @@ export const Input = ({ isModalOpen, openModal, closeModal }: Modal) => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTaskText(e.target.value);
-  };
-
-  const handleSeverityChange = (severity: string) => {
-    setSeverity(severity);
-    closeModal();
   };
 
   const handleAddTask = () => {
@@ -52,6 +47,18 @@ export const Input = ({ isModalOpen, openModal, closeModal }: Modal) => {
     }
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSeverityChange = (severity: string) => {
+    setSeverity(severity);
+    closeModal();
+  };
   return (
     <div className='inputContainer'>
       <div className='inputLeft'>

@@ -2,9 +2,10 @@ import { useState, useRef } from 'react';
 import { BsCircle, BsCheckCircleFill, BsCircleFill, BsFillPencilFill } from 'react-icons/bs';
 import { AiOutlineDownSquare } from 'react-icons/ai';
 import { Severity } from '../';
-import { Task, Modal } from '../../types';
+import { Task } from '../../types';
 
-export const Todo = ({ updateTaskStatus, id, text, done, severity }: Task, { isModalOpen, openModal, closeModal }: Modal) => {
+export const Todo = ({ updateTaskStatus, id, text, done, severity }: Task) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTaskHovered, setIsTaskHovered] = useState(false);
   const [isCheckHovered, setIsCheckHovered] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -47,7 +48,7 @@ export const Todo = ({ updateTaskStatus, id, text, done, severity }: Task, { isM
     // For example, you can use localStorage.getItem() to retrieve the existing tasks, update the task data, and then use localStorage.setItem() to save the updated tasks
     const existingTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 
-    const updatedTasks = existingTasks.map((taskItem) => {
+    const updatedTasks = existingTasks.map((taskItem: Task) => {
       if (taskItem.id === id) {
         return {
           ...taskItem,
@@ -77,10 +78,34 @@ export const Todo = ({ updateTaskStatus, id, text, done, severity }: Task, { isM
     }
   };
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   const handleSeverityChange = (severity: string) => {
     setEditSeverity(severity);
     closeModal();
   };
+
+  let severityColor = '';
+
+  switch (severity) {
+    case 'normal':
+      severityColor = 'severity green';
+      break;
+    case 'important':
+      severityColor = 'severity yellow';
+      break;
+    case 'urgent':
+      severityColor = 'severity red';
+      break;
+    default:
+      severityColor = 'severity';
+  }
 
   return (
     <div className='container'>
@@ -98,7 +123,7 @@ export const Todo = ({ updateTaskStatus, id, text, done, severity }: Task, { isM
           <div className='taskContainer'>
             <div className='taskDone'>
               <h2>{text}</h2>
-              <BsCircleFill className='severity red' />
+              <BsCircleFill className={severityColor} />
             </div>
             <p>{severity}</p>
           </div>
@@ -119,7 +144,7 @@ export const Todo = ({ updateTaskStatus, id, text, done, severity }: Task, { isM
                   />
                 </div>
                 <div className='inputRight'>
-                  <p>{severity ? severity : 'Set severity'}</p>
+                  <p>{editSeverity ? editSeverity : severity}</p>
                   <button onClick={openModal} ref={triggerRef}>
                     <AiOutlineDownSquare />
                   </button>
@@ -130,7 +155,7 @@ export const Todo = ({ updateTaskStatus, id, text, done, severity }: Task, { isM
               <>
                 <div className='task'>
                   <h2>{text}</h2>
-                  <BsCircleFill className='severity red' />
+                  <BsCircleFill className={severityColor} />
                 </div>
                 <p>{severity}</p>
               </>

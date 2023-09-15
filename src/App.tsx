@@ -1,12 +1,9 @@
-import { useState } from 'react';
 import { Input, Todo } from './components';
 import { HiCheck, HiOutlineTrash } from 'react-icons/hi';
 import { Task } from './types';
 import './App.css';
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const existingTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 
   const updateTaskStatus = (taskId: string, newStatus: boolean) => {
@@ -31,14 +28,6 @@ function App() {
     window.location.reload();
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <>
       <header>
@@ -49,7 +38,7 @@ function App() {
         <h4>Dead Simple To-do App</h4>
       </header>
       <section>
-        <Input isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} openModal={openModal} closeModal={closeModal} />
+        <Input />
         {existingTasks &&
           existingTasks.map(
             (task: Task) =>
